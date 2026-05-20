@@ -60,16 +60,27 @@ const Feedback = (props) => (
 const Statistics = (props) => {
   const average = (1 * props.good + 0 * props.neutral + -1 * props.bad)/props.all
   const positive = props.good / props.all
-  return (
-  <div>
-    <Header header='statistics'/>
-    <Display text='good' amount={props.good}/>
-    <Display text='neutral' amount={props.neutral}/>
-    <Display text='bad' amount={props.bad}/>
-    <Display text='all' amount={props.all}/>
-    <Display text='average' amount={average}/>
-    <Display text='positive' amount={positive.toString()+'%'}/>
-  </div>
-  )
+  if (props.all > 0) {
+    return (
+    <div>
+      <Header header='statistics'/>
+      <Display text='good' amount={props.good}/>
+      <Display text='neutral' amount={props.neutral}/>
+      <Display text='bad' amount={props.bad}/>
+      <Display text='all' amount={props.all}/>
+      <Display text='average' amount={average}/>
+      <Display text='positive' amount={positive.toString()+'%'}/>
+    </div>
+    )
+  }
+  else {
+    return (
+      <div>
+        <Header header='statistics'/>
+        <p>No feedback given</p>
+      </div>
+    )
+    
+  }
 }
 export default App
