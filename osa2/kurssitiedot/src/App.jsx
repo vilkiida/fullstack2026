@@ -30,7 +30,6 @@ const Course = ({course}) => {
     <div>
       <Header course={course}/>
       <Content parts={course.parts}/>
-      <Total parts={course.parts}/>
     </div>
   )
 }
@@ -44,6 +43,7 @@ const Content = (props) => (
     <Part part={props.parts[0]}/>
     <Part part={props.parts[1]}/>
     <Part part={props.parts[2]}/>
+    <Total parts={props.parts}/>
   </div>
 )
 const Part = (props) => (
