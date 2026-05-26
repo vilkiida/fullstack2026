@@ -43,20 +43,24 @@ const Content = ({parts}) => (
     {parts.map((part, i)=> 
       <Part key={i} content={part}/>
     )}
+    <Total parts={parts}/>
   </div>
 )
 const Part = ({content}) => (
   <li>
-    {content.name} {content.exercises}
+    <p>{content.name} {content.exercises}</p>
   </li>
 )
-//const Total = (props) => (
-//  <>
-//    <p>
-//      Number of exercises {props.parts[0].exercises +
-//      props.parts[1].exercises + props.parts[2].exercises}
-//    </p>
-//  </>
-//)
+const Total = ({parts}) => {
+  const sumExercises = parts.reduce(function(sum, part) {
+    return sum + part.exercises
+  }, 0)
+  return (
+    <div>
+      <b>total of {sumExercises} exercises</b>
+    </div>
+  )
+}
+
 
 export default App
