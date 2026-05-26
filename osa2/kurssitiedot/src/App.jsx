@@ -40,9 +40,9 @@ const Header = (props) => (
 )
 const Content = ({parts}) => (
   <div>
-    {parts.map((part, i)=> 
-      <Part key={i} content={part}/>
-    )}
+      {parts.map((part, i)=> 
+        <Part key={i} content={part}/>
+      )}
     <Total parts={parts}/>
   </div>
 )
@@ -52,12 +52,12 @@ const Part = ({content}) => (
   </li>
 )
 const Total = ({parts}) => {
-  const sumExercises = parts.reduce(function(sum, part) {
+  const total = parts.reduce(function(sum, part) {
     return sum + part.exercises
   }, 0)
   return (
     <div>
-      <b>total of {sumExercises} exercises</b>
+      <b>total of {total} exercises</b>
     </div>
   )
 }
