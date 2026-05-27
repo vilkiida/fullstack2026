@@ -54,34 +54,15 @@ const App = () => {
 
   return (
     <div>
-      <div>
-        <Header text='Phonebook'/>
-        <p>filter shown with <input value = {searchTerm}
-          onChange = {handleSearchChange}/>
-        </p>
-      </div>
-      <div>
-        <Header text='add a new'/>
-        <form onSubmit= {addPerson}>
-          <div>
-            name: <input 
-            value = {newName}
-            onChange={handleNameChange}/>
-          </div>
-          <div>
-            number: <input value = {newNumber}
-            onChange={handleNumberChange}/>
-          </div>
-          <div>
-            <button type="submit">add</button>
-          </div>
-        </form>
-      </div>
-      <div>
-        <Header text='Numbers'/>
-        {personsToShow.map((person, i) => 
-          <Contact key={i} name={person.name} number={person.number}/>)}
-      </div>
+      <Header text='Phonebook'/>
+      <Filter searchTerm={searchTerm} 
+      onChange={handleSearchChange} />
+      <Header text='add a new'/>
+      <PersonForm onSubmit={addPerson} newName={newName}
+        newNumber={newNumber} handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange} />
+      <Header text='Numbers'/>
+      <Persons personsToShow={personsToShow} />
     </div>
   )
 }
@@ -96,6 +77,35 @@ const Contact = ({name, number}) => (
     <p>{name} {number}</p>
   </>
 )
-
+const Persons = ({personsToShow}) => (
+  <>
+  {personsToShow.map((person, i) => 
+    <Contact key={i} name={person.name} number={person.number}/>)}
+  </>
+)
+const Filter = ({searchTerm, onChange}) => (
+  <p>
+    filter shown with <input value = {searchTerm}
+    onChange = {onChange}/>
+  </p>
+)
+const PersonForm = ({onSubmit, newName, newNumber, 
+  handleNameChange, handleNumberChange}) => (
+    <form onSubmit= {onSubmit}>
+      <div>
+        name: <input 
+        value = {newName}
+        onChange={handleNameChange}/>
+      </div>
+      <div>
+        number: <input 
+        value = {newNumber}
+        onChange={handleNumberChange}/>
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
 
 export default App
