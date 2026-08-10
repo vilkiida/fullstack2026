@@ -36,7 +36,23 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+      if (confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`) == true) {
+          const oldContact = (persons.find(p => p.name === newName))
+          const updatedContact = {
+            name: newName,
+            number: newNumber,
+            id: oldContact.id
+          }
+          personService
+            .update(oldContact.id, updatedContact)
+            .then(returnedPerson => {
+              setPersons(persons.map(person => person.id !== oldContact.id ? person : returnedPerson))
+              setNewName('')
+              setNewNumber('')
+            })
+
+        } else {
+        }
     }
     else if (persons.some(person => person.number === newNumber)) {
       alert(`the number ${newNumber} is already added to phonebook`)
@@ -95,7 +111,7 @@ const Header = ({ text }) => (
 const Contact = ({person, handleDeleteClick}) => (
   <>
     <p>
-      {person.name} {person.number} <button onClick={() => handleDeleteClick(person)}>poista</button>
+      {person.name} {person.number} <button onClick={() => handleDeleteClick(person)}>delete</button>
     </p>
   </>
 )
