@@ -44,7 +44,8 @@ const App = () => {
     else {
       const personObject = {
         name: newName,
-        number: newNumber
+        number: newNumber,
+        id: String(persons.length+1)
       }
       personService
         .create(personObject)
@@ -55,9 +56,21 @@ const App = () => {
         })
     }
   }
+
   const personsToShow = showAll
     ? persons
     : persons.filter(person => person.name.toLowerCase().includes(searchTerm.toLowerCase()))
+
+
+  const handleDeleteClick = (person_to_be_removed) => {
+    if (confirm(`Are you sure you want to delete ${person_to_be_removed.name} ?`) == true) {
+      personService
+      .remove(person_to_be_removed.id)
+      setPersons(persons.filter(person => person.id !== person_to_be_removed.id))
+    } else {
+    }
+    
+    }
 
   return (
     <div>
@@ -69,7 +82,7 @@ const App = () => {
         newNumber={newNumber} handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange} />
       <Header text='Numbers'/>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} handleDeleteClick={handleDeleteClick}/>
     </div>
   )
 }
@@ -79,15 +92,17 @@ const Header = ({ text }) => (
     {text}
   </h2>
 )
-const Contact = ({name, number}) => (
+const Contact = ({person, handleDeleteClick}) => (
   <>
-    <p>{name} {number}</p>
+    <p>
+      {person.name} {person.number} <button onClick={() => handleDeleteClick(person)}>poista</button>
+    </p>
   </>
 )
-const Persons = ({personsToShow}) => (
+const Persons = ({personsToShow, handleDeleteClick}) => (
   <>
-  {personsToShow.map((person, i) => 
-    <Contact key={i} name={person.name} number={person.number}/>)}
+  {personsToShow.map((person) => 
+    <Contact key={person.id} person={person} handleDeleteClick={handleDeleteClick}/>)}
   </>
 )
 const Filter = ({searchTerm, onChange}) => (
