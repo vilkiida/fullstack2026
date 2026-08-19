@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import './index.css'
 import personService from './services/persons'
+import Notification from './components/Notification'
 const App = () => {
 
   const [persons, setPersons] = useState([])
@@ -7,6 +9,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -47,6 +50,12 @@ const App = () => {
             .update(oldContact.id, updatedContact)
             .then(returnedPerson => {
               setPersons(persons.map(person => person.id !== oldContact.id ? person : returnedPerson))
+              setSuccessMessage(
+            `The phonenumber for ${returnedPerson.name} has been updated`
+          )
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
               setNewName('')
               setNewNumber('')
             })
@@ -67,6 +76,12 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setSuccessMessage(
+            `${returnedPerson.name} has been added to the phonebook`
+          )
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
           setNewName('')
           setNewNumber('')
         })
@@ -83,6 +98,12 @@ const App = () => {
       personService
       .remove(person_to_be_removed.id)
       setPersons(persons.filter(person => person.id !== person_to_be_removed.id))
+      setSuccessMessage(
+            `${person_to_be_removed.name} has been deleted`
+          )
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
     } else {
     }
     
@@ -94,6 +115,7 @@ const App = () => {
       <Filter searchTerm={searchTerm} 
       onChange={handleSearchChange} />
       <Header text='add a new'/>
+      <Notification message= {successMessage}/>
       <PersonForm onSubmit={addPerson} newName={newName}
         newNumber={newNumber} handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange} />
