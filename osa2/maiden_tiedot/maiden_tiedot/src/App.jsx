@@ -50,9 +50,6 @@ const Countryname = ({ countryname }) => (
 )
 
 const CountryPage = ({ country }) => {
-  const flagStyle = {
-    fontSize: '200px'
-  }
   return(
     <div>
       <h2>
@@ -70,9 +67,7 @@ const CountryPage = ({ country }) => {
       <ul>
         {Object.values(country.languages).map((language, i) => <li key={i}>{language}</li>)}
       </ul>
-      <div style={flagStyle}>
-        {country.flag}
-      </div>
+      <img src={country.flags.png}></img>
     </div>
   )
 }
