@@ -25,6 +25,10 @@ const App = () => {
     }
   }  
 
+  const handleSelectClick = ( country ) => {
+    setSearchTerm(country.name.common)
+  }
+
   const countriesToShow = showAll
     ? countries
     : countries.filter(country => country.name.common.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -33,7 +37,7 @@ const App = () => {
     <div>
       <Search searchTerm={searchTerm}
       onChange={handleSearchChange} />
-      <Countries countries={countriesToShow}/>
+      <Countries countries={countriesToShow} handleSelectClick={handleSelectClick}/>
     </div>
   )
 }
@@ -43,9 +47,9 @@ const Search = ({searchTerm, onChange}) => (
     onChange= {onChange}/>
   </p>
 )
-const Countryname = ({ countryname }) => (
+const Countryname = ({ country, handleSelectClick }) => (
   <p>
-    {countryname.common}
+    {country.name.common}<button onClick={() => handleSelectClick(country)}>Show</button>
   </p>
 )
 
@@ -71,7 +75,7 @@ const CountryPage = ({ country }) => {
     </div>
   )
 }
-const Countries = ({ countries }) => {
+const Countries = ({ countries, handleSelectClick }) => {
   if (countries.length > 10) {
     return(
       <div>
@@ -91,7 +95,7 @@ const Countries = ({ countries }) => {
     return(
       <div>
         {countries.map((country, i) =>
-        <Countryname key={i} countryname={country.name}/>)}
+        <Countryname key={i} country={country} handleSelectClick={handleSelectClick}/>)}
       </div>
     )
   }
